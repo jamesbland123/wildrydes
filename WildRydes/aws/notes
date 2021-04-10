@@ -1,0 +1,10 @@
+s3 bucket name: wildrydes-nimbus117
+s3 bucket url: http://wildrydes-nimbus117.s3-website-eu-west-1.amazonaws.com/
+cognito pool id: eu-west-1_15nDMvr2K
+cognito app client name: WildRydesWebApp
+cognito app client id: 7qjniknkfqefdlmrmvr0m7cu0e
+# decode json web tokens - https://jwt.io/
+dynamodb table name: Rides
+dynomodb primary key/partition key: RideId
+api gateway invoke url: https://miq87fm8ef.execute-api.eu-west-1.amazonaws.com/prod
+
