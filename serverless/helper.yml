@@ -1,0 +1,13 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: Creates S3 bucket to store lambda code for the wild rydes app
+
+Resources:
+  LambdaBucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        RestrictPublicBuckets: true 
+        IgnorePublicAcls: true
