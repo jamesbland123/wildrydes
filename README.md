@@ -60,4 +60,10 @@ aws cloudformation delete-stack --stack-name helper-bucket
 aws cloudformation delete-stack --stack-name wildrydes
 ```
 
+## Container Guide
+The container is not a full working example. Following the steps below will get a running container, but full functionality of the components such as requesting a ride do not work. But for the sake of demonstration and continuity with the workshop the apps purpose is to provide the same look and feel as the serverless app. Additionally, there are no Cloudformation deployments to allow flexibility for your choice of container orchestration (ECS, EKS, Beanstalk).
 
+Instructions to build and run locally. 
+1. cd to the containers directory
+2. build the container ```docker build -t wildrydes .```
+3. Run the container ```docker run -d -p 8080:8080 --rm wildrydes```

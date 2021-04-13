@@ -1,0 +1,18 @@
+{
+  "name": "wildrydes",
+  "version": "1.0.0",
+  "description": "WildRydes sample application - containerized",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "wildrydes",
+    "container"
+  ],
+  "author": "James Bland",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
