@@ -7,6 +7,7 @@ services:
         environment: 
             - MYSQL_ROOT_PASSWORD=mypassword
             - MYSQL_DATABASE=wildrydes
+            - MYSQL_USER=user
         ports:
             - "3306:3306"
     

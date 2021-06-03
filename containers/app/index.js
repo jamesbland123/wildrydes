@@ -31,3 +31,47 @@ app.get('/js/config.js', function (req, res) {
 
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);
+
+//SQL
+app.post('/register', (req, res) => {
+  //req.email
+  var mysql = require('mysql');
+  console.log(req.body);
+  res.send(req.body);
+
+  var connection = mysql.createConnection({
+    host: 'localhost',
+    port: '3306',
+    user: 'user',
+    password: 'mypassword',
+    database: 'wildrydes'
+  });
+  
+  ////reference https://github.com/mysqljs/mysql
+  //Establishing a connection
+  /*connection.connect(function(err) {
+    if (err) {
+      console.error('error connecting: ' + err.stack);
+      return;
+    }
+  
+    console.log('connected as id ' + connection.threadId);
+  });
+  
+  console.log('second');
+  connection.query('CREATE TABLE user (email varchar,password varchar)', function (error, results, fields) {
+    if (error) throw error;
+    // connected!
+  });
+  
+  var inputEmail=  document.getElementById("emailInputRegister").value;
+  var inputPassword = document.getElementById("passwordInputRegister").value;
+  
+  var post  = {email: inputEmail, password: inputPassword};
+  
+  connection.query('INSERT INTO user SET?', post, function (error, results, fields) {
+    if (error) throw error;
+    // connected!
+  });*/
+
+});
