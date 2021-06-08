@@ -2,6 +2,7 @@
 
 const express = require('express');
 
+
 // Constants
 const PORT = 8080;
 const HOST = '0.0.0.0';
@@ -10,6 +11,11 @@ const HOST = '0.0.0.0';
 // App
 const app = express();
 app.use(express.static('public'))
+// for parsing application/json
+app.use(express.json()); 
+// for parsing form data
+app.use(express.urlencoded({ extended: true })); 
+
 
 app.get('/', (req, res) => {
   res.sendFile('public/index.html', { root: __dirname });
@@ -27,6 +33,11 @@ app.get('/js/config.js', function (req, res) {
         invokeUrl: '${process.env.INVOKE_URL}' 
     }
   };`)
+});
+
+app.post('/register', function(req, res){
+  console.log(req.body.username);
+  res.send(req.body.username);
 });
 
 app.listen(PORT, HOST);

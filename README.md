@@ -66,4 +66,10 @@ The container is not a full working example. Following the steps below will get 
 Instructions to build and run locally. 
 1. cd to the containers directory
 2. build the container ```docker build -t wildrydes .```
-3. Run the container ```docker run -d -p 8080:8080 --rm wildrydes```
+3. Run the container with MySQL ```docker-compose up -d```
+
+To shutdown the container use
+1. ```docker-compose down```
+
+To run the container without MySQL, use
+1. Run the container ```docker run -d -p 8080:8080 --rm wildrydes```
