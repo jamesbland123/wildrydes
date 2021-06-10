@@ -1,12 +1,19 @@
 'use strict';
 
 const express = require('express');
-
+var mysql = require('mysql'); 
 
 // Constants
 const PORT = 8080;
 const HOST = '0.0.0.0';
 
+var con = mysql.createConnection({
+  host: "mysql",
+  user: "root",
+  password: "mypassword",
+  database: "wildrydes",
+  port: '3306'
+});
 
 // App
 const app = express();
@@ -36,8 +43,18 @@ app.get('/js/config.js', function (req, res) {
 });
 
 app.post('/register', function(req, res){
-  console.log(req.body.username);
-  res.send(req.body.username);
+  con.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected!");
+    
+    const userDetails = req.body;
+    let sql = 'INSERT INTO users SET ?';
+    con.query(sql, userDetails, function (err, result) {
+      if (err) throw err;
+      console.log("1 record inserted");
+    });
+  });
+  res.send("Thanks for registering");
 });
 
 app.listen(PORT, HOST);

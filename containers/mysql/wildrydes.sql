@@ -15,6 +15,8 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'mypassword';
+
 --
 -- Table structure for table `users`
 --
@@ -23,8 +25,8 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `users` (
-  `username` int NOT NULL,
-  `password` varchar(45) DEFAULT NULL,
+  `username` varchar(45) NOT NULL,
+  `password` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
