@@ -22,38 +22,20 @@
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
 
-        <div id="noCognitoMessage" class="configMessage" style="display: none;">
-            <div class="backdrop"></div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">No Cognito User Pool Configured</h3>
-                </div>
-                <div class="panel-body">
-                    <p>There is no user pool configured in <a href="/js/config.js">/js/config.js</a>. You'll configure this in Module 2 of the workshop.</p>
-                </div>
-            </div>
-        </div>
-
         <header>
           <img src="images/logo.png">
         </header>
 
-
         <section class="form-wrap">
-            <h1>Sign In</h1>
-            <form id="signinForm">
-              <input type="email" id="emailInputSignin" placeholder="Email" required>
-              <input type="password" id="passwordInputSignin" placeholder="Password" pattern=".*" required>
-
+            <h1>Sign in</h1>
+            <form id="rSigninForm" action="/sign-in" method="POST" enctype="application/x-www-form-urlencoded">
+              <input type="text" id="usernameInputSignin" name="username" placeholder="Username" pattern=".*" required>
+              <input type="password" id="passwordInputSignin" name="password" placeholder="Password" pattern=".*" required>
               <input type="submit" value="Sign in">
             </form>
         </section>
 
         <script src="js/vendor/jquery-3.1.0.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>
-        <script src="js/vendor/aws-cognito-sdk.min.js"></script>
-        <script src="js/vendor/amazon-cognito-identity.min.js"></script>
-        <script src="js/config.js"></script>
-        <script src="js/cognito-auth.js"></script>
     </body>
 </html>

@@ -15,6 +15,25 @@ var con = mysql.createConnection({
   port: '3306'
 });
 
+// return fleet
+const fleet = [
+  {
+      Name: 'Bucephalus',
+      Color: 'Golden',
+      Gender: 'Male',
+  },
+  {
+      Name: 'Shadowfax',
+      Color: 'White',
+      Gender: 'Male',
+  },
+  {
+      Name: 'Rocinante',
+      Color: 'Yellow',
+      Gender: 'Female',
+  },
+];
+
 // App
 const app = express();
 app.use(express.static('public'))
@@ -31,11 +50,6 @@ app.get('/', (req, res) => {
 app.get('/js/config.js', function (req, res) {
   res.type('.js');
   res.send(`window._config = {
-    cognito: {
-        userPoolId: '${process.env.POOL_ID}', 
-        userPoolClientId: '${process.env.POOL_CLIENT_ID}', 
-        region: '${process.env.REGION}' 
-    },
     api: {
         invokeUrl: '${process.env.INVOKE_URL}' 
     }
@@ -54,7 +68,27 @@ app.post('/register', function(req, res){
       console.log("1 record inserted");
     });
   });
-  res.send("Thanks for registering");
+  res.redirect('/sign-in');
+
+});
+
+app.get('/sign-in', (req, res) => {
+  res.sendFile('public/signin.html', { root: __dirname });
+});
+
+app.post('/sign-in', (req, res) => {
+  // Need to put logic to check username and password here
+
+  //Once validated send ride.html 
+  res.redirect('/ride');
+});
+
+app.get('/ride', (req, res) => {
+  res.sendFile('public/ride.html', { root: __dirname });
+});
+
+app.post('/ride', (req, res) => {
+  res.json(fleet[Math.floor(Math.random() * fleet.length)]);
 });
 
 app.listen(PORT, HOST);
