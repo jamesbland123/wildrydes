@@ -3,10 +3,13 @@
 const express = require('express');
 const mysql = require('mysql'); 
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 
 // Constants
 const PORT = 8080;
 const HOST = '0.0.0.0';
+const jwtSecret = "supersecret"
 
 const db_con = mysql.createPool({
   host: "mysql",
@@ -43,6 +46,8 @@ app.use(express.static('public'))
 app.use(express.json()); 
 // for parsing form data
 app.use(express.urlencoded({ extended: true })); 
+// cookies
+app.use(cookieParser());
 
 
 app.get('/', (req, res) => {
@@ -93,7 +98,14 @@ app.post('/sign-in', (req, res) => {
         else if (results[0]) {
           console.log(results[0].password + " " + req.body.password);
           if (bcrypt.compareSync(req.body.password, results[0].password)) {
-            // todo set authorization header with jwt
+            var token = jwt.sign(
+              {
+              "username": req.body.password,
+              "role": "user"
+              }, jwtSecret, { expiresIn: '4h'}
+            );
+            res.cookie('auth_token', token, 
+              {expires: new Date(Date.now() + 4 * 3600000)} ); // expires 4 hours
             res.redirect('/ride');
           }
           else {
@@ -106,11 +118,36 @@ app.post('/sign-in', (req, res) => {
 });
 
 app.get('/ride', (req, res) => {
-  res.sendFile('public/ride.html', { root: __dirname });
+  const authToken = req.cookies.auth_token;
+  console.log("auth: " + authToken)
+  // Missing token from cookie
+  if (!authToken) {
+    console.log("ride: no auth cookie token");
+    res.clearCookie('auth_token');
+    res.redirect('/sign-in');
+  }
+  else {
+    var decoded = jwt.verify(authToken, jwtSecret);
+    if (!decoded) {
+      console.log("ride: bad token");
+      res.clearCookie('auth_token');
+      res.redirect('/sign-in');
+    }
+    // Token verification failed
+    else {
+      console.log("ride: token verified");
+      res.sendFile('public/ride.html', { root: __dirname });
+    }
+  }
 });
 
 app.post('/ride', (req, res) => {
   res.json(fleet[Math.floor(Math.random() * fleet.length)]);
+});
+
+app.get('/logout', (req, res) => {
+  res.clearCookie('auth_token');
+  res.sendFile('public/signin.html', { root: __dirname });
 });
 
 app.listen(PORT, HOST);
