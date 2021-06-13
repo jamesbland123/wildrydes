@@ -1,19 +1,21 @@
 'use strict';
 
 const express = require('express');
-var mysql = require('mysql'); 
+const mysql = require('mysql'); 
+const bcrypt = require("bcrypt");
 
 // Constants
 const PORT = 8080;
 const HOST = '0.0.0.0';
 
-var con = mysql.createConnection({
+const db_con = mysql.createPool({
   host: "mysql",
   user: "root",
   password: "mypassword",
   database: "wildrydes",
   port: '3306'
 });
+
 
 // return fleet
 const fleet = [
@@ -57,10 +59,12 @@ app.get('/js/config.js', function (req, res) {
 });
 
 app.post('/register', function(req, res){
-  con.connect(function(err) {
+  db_con.getConnection(function(err,con) {
     if (err) throw err;
     console.log("Connected!");
     
+    // req.body has username and password
+    req.body.password = bcrypt.hashSync(req.body.password , 10);
     const userDetails = req.body;
     let sql = 'INSERT INTO users SET ?';
     con.query(sql, userDetails, function (err, result) {
@@ -77,10 +81,28 @@ app.get('/sign-in', (req, res) => {
 });
 
 app.post('/sign-in', (req, res) => {
-  // Need to put logic to check username and password here
+  db_con.getConnection(function(err,con) {
+    if (err) throw err;
+    console.log("Connected! MySQL signin");
 
-  //Once validated send ride.html 
-  res.redirect('/ride');
+    con.query(
+      'SELECT * FROM users WHERE username = ?', [req.body.username], (err, results) => {
+        if (err) {console.log("signin connection error")}
+    
+        
+        else if (results[0]) {
+          console.log(results[0].password + " " + req.body.password);
+          if (bcrypt.compareSync(req.body.password, results[0].password)) {
+            // todo set authorization header with jwt
+            res.redirect('/ride');
+          }
+          else {
+            res.json({ "signin" : "bad username or password" });
+          }
+        }
+      }
+    );
+  }); 
 });
 
 app.get('/ride', (req, res) => {
