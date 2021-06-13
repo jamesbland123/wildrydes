@@ -147,6 +147,7 @@ app.post('/ride', (req, res) => {
 
 app.get('/logout', (req, res) => {
   res.clearCookie('auth_token');
+  // todo: consider replacing with redirect to sign-in, but need to test.
   res.sendFile('public/signin.html', { root: __dirname });
 });
 
