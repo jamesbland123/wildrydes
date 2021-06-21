@@ -165,5 +165,20 @@ app.get('/logout', (req, res) => {
   res.sendFile('public/signin.html', { root: __dirname });
 });
 
+app.get('/unicorns', (req, res) => {
+  db_con.getConnection(function(err,con) {
+    if (err) throw err;
+    console.log("Connected! MySQL signin");
+
+    con.query(
+      'SELECT * FROM unicorns', (err, results) => {
+        if (err) {console.log("bad connection to database")}
+    
+        res.json(results);
+    
+    });
+  }); 
+});
+
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);
