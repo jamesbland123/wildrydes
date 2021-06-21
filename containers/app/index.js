@@ -142,7 +142,21 @@ app.get('/ride', (req, res) => {
 });
 
 app.post('/ride', (req, res) => {
-  res.json(fleet[Math.floor(Math.random() * fleet.length)]);
+  console.log('unicorn data ' + JSON.stringify(req.body));
+  var unicorn = fleet[Math.floor(Math.random() * fleet.length)];
+  console.log('unicorn' + JSON.stringify(unicorn));
+  
+  db_con.getConnection(function(err,con) {
+    if (err) throw err;
+    console.log("Connected! MySQL signin");
+    
+    let sql = 'INSERT INTO unicorns SET ?';
+    con.query(sql, unicorn, function (err, result) {
+      if (err) throw err;
+      console.log("1 record inserted");
+    });
+  });
+  res.json(unicorn);
 });
 
 app.get('/logout', (req, res) => {
