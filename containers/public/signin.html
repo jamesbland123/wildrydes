@@ -49,24 +49,31 @@
                     //var formData = new FormData();
                     //formData.append("username", document.getElementById("usernameInputSignin").value);
                     //formData.append("password", document.getElementById("passwordInputSignin").value);
-                    //event.stopPropagation();
+                    var formData = $(this).serialize();
+                    event.stopPropagation();
                     event.preventDefault();
                     console.log("Before ajax");
-                    /*$.ajax({
+                    $.ajax({
                         url: "/sign-in",
                         data: formData,
-                        processData: true,
-                        type: 'POST',
-                        success: function(data) {
-                            console.log("This is success");
-                            alert("Here1");
+                        processData: false,
+                        method: "POST",
+                        success: function(data, status, xhr) {
+                            console.log("Ajax success");
+                            if (data.error) {
+                                alert(data.error);
+                            }
+                            else {
+                                console.log("login success");
+                            }
                         }
-                    });*/
-                    $.post('/sign-in',  
+                    });
+                    /*$.post('/sign-in',  
                         { username: "sarah", password: "hello" }, 
                         function(data, status, xhr) {
                             alert('status: ' + status + ', data: ' + data.responseData);
                         },'json').done(function() { alert('Request done!')}); 
+                    */
                     console.log("After Ajax");
                 });
             });

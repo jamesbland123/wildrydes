@@ -66,7 +66,7 @@ app.get('/js/config.js', function (req, res) {
 app.post('/register', function(req, res){
   db_con.getConnection(function(err,con) {
     if (err) throw err;
-    console.log("Connected!");
+    console.log("Connected! mySQL register");
     
     // req.body has username and password
     req.body.password = bcrypt.hashSync(req.body.password , 10);
