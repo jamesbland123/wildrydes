@@ -28,7 +28,7 @@
 
         <section class="form-wrap">
             <h1>Sign in</h1>
-            <form id="rSigninForm" action="/sign-in" method="POST" enctype="application/x-www-form-urlencoded">
+            <form id="rSigninForm" action="">
               <input type="text" id="usernameInputSignin" name="username" placeholder="Username" pattern=".*" required>
               <input type="password" id="passwordInputSignin" name="password" placeholder="Password" pattern=".*" required>
               <input type="submit" value="Sign in">
@@ -37,5 +37,39 @@
 
         <script src="js/vendor/jquery-3.1.0.js"></script>
         <script src="js/vendor/bootstrap.min.js"></script>
+        <script>     
+
+            // Attach a submit handler to the form 
+          // Attach a submit handler to the form 
+        
+            console.log("Inside script");
+            $(document).ready(function () {
+                $("#rSigninForm").submit(function(event) {
+                    console.log("Before formdata");
+                    //var formData = new FormData();
+                    //formData.append("username", document.getElementById("usernameInputSignin").value);
+                    //formData.append("password", document.getElementById("passwordInputSignin").value);
+                    //event.stopPropagation();
+                    event.preventDefault();
+                    console.log("Before ajax");
+                    /*$.ajax({
+                        url: "/sign-in",
+                        data: formData,
+                        processData: true,
+                        type: 'POST',
+                        success: function(data) {
+                            console.log("This is success");
+                            alert("Here1");
+                        }
+                    });*/
+                    $.post('/sign-in',  
+                        { username: "sarah", password: "hello" }, 
+                        function(data, status, xhr) {
+                            alert('status: ' + status + ', data: ' + data.responseData);
+                        },'json').done(function() { alert('Request done!')}); 
+                    console.log("After Ajax");
+                });
+            });
+        </script>
     </body>
 </html>

@@ -109,7 +109,11 @@ app.post('/sign-in', (req, res) => {
             res.redirect('/ride');
           }
           else {
-            res.json({ "signin" : "bad username or password" });
+            //res.json({ "signin" : "bad username or password" });
+            console.log("Wrong password");
+            res.status(200).json({ error: 'Wrong credentials' });
+            //res.redirect('back');
+            //res.send("Wrong password");
           }
         }
       }
