@@ -97,7 +97,7 @@ app.post('/sign-in', (req, res) => {
         
         else if (results[0]) {
           console.log(results[0].password + " " + req.body.password);
-          if (bcrypt.compareSync(req.body.password, results[0].password)) {
+          if (bcrypt.compareSync(req.body.password, results[0].password)) { 
             var token = jwt.sign(
               {
               "username": req.body.password,
@@ -106,14 +106,10 @@ app.post('/sign-in', (req, res) => {
             );
             res.cookie('auth_token', token, 
               {expires: new Date(Date.now() + 4 * 3600000)} ); // expires 4 hours
-            res.redirect('/ride');
+            res.status(200).json({message: "Correct credentials"});
           }
           else {
-            //res.json({ "signin" : "bad username or password" });
-            console.log("Wrong password");
             res.status(200).json({ error: 'Wrong credentials' });
-            //res.redirect('back');
-            //res.send("Wrong password");
           }
         }
       }
@@ -123,7 +119,6 @@ app.post('/sign-in', (req, res) => {
 
 app.get('/ride', (req, res) => {
   const authToken = req.cookies.auth_token;
-  console.log("auth: " + authToken)
   // Missing token from cookie
   if (!authToken) {
     console.log("ride: no auth cookie token");
