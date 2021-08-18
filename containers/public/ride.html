@@ -23,14 +23,7 @@
     <div class="info panel panel-default">
         <div class="panel-heading">
             <button id="request" class="btn btn-primary" disabled="disabled">Set pickup</button>
-            <div class="dropdown pull-right">
-                <button id="accountLink" class="btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Account <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="accountLink">
-                    <li><a id="signOut" href="/signin.html">Sign out</a></li>
-                </ul>
-            </div>
+            <button id="signOut" class="btn btn-primary">Sign Out</button>
         </div>
         <div class="panel-body">
             <ol id="updates">
@@ -87,7 +80,24 @@
         </div>
     </div>
 
+    <script src="js/vendor/jquery-3.1.0.js"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
 
+    <script>     
+        $(document).ready(function () {
+            $("#signOut").click(function(event) {
+                event.preventDefault();
+                $.ajax({
+                    url: "/logout",
+                    method: "GET",
+                    success: function(data, status, xhr) {
+                        location.href = window.location.origin + "/sign-in";    
+                    }
+                });
+            });
+        });
+    </script>
+    
     <script src="js/vendor/jquery-3.1.0.js"></script>
     <script src="js/vendor/bootstrap.min.js"></script>
     <script src="https://js.arcgis.com/4.3/"></script>
